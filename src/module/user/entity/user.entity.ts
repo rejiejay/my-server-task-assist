@@ -13,4 +13,7 @@ export class User {
 
     @Column({ length: 16 })
     token: string;
+
+    @Column({type: 'bigint'})
+    expired: number;
 }
