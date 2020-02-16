@@ -17,3 +17,14 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 cnpm i -g @nestjs/cli
 ```
 
+# 命令
+- 启动
+```
+npm run start
+```
+
+[http://localhost:1932/](http://localhost:1932/)
+
+- 创建 controller 层
+nest g controller name
+
