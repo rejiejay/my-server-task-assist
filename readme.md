@@ -20,11 +20,11 @@ cnpm i -g @nestjs/cli
 # 命令
 - 启动
 ```
-npm run start
+npm run start:dev
 ```
 
 [http://localhost:1932/](http://localhost:1932/)
 
 - 创建 controller 层
 nest g controller name
-
+nest g module name
