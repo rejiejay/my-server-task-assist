@@ -1,5 +1,6 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { consequencer } from 'src/utils/consequencer';
 
 @Controller()
 export class AppController {
@@ -11,7 +12,7 @@ export class AppController {
     }
 
     @Post()
-    testHome(): string {
-        return 'This action is test home';
+    testHome(): object {
+        return consequencer.success();
     }
 }

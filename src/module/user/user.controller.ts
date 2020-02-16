@@ -27,7 +27,7 @@ export class UserController {
     async verify(@Query() query: any): Promise<object> {
         const { verify } = query
 
-        if (verify) return consequencer.error('参数有误');
+        if (!verify) return consequencer.error('参数有误');
 
         return await this.userService.verifyToken({ token: verify });
     }
