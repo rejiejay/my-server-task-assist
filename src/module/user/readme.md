@@ -1,3 +1,4 @@
 # 用户模块
 
-根据账号密码获取token
+- /user/login
+[根据账号密码获取token](http://localhost:1932/user/login?name=rejiejay&password=DFqew)
