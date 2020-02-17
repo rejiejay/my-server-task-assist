@@ -26,7 +26,10 @@ export class AuthGuard implements CanActivate {
         if (path === '/user/login' || path === '/user/verify') return true
 
         const token = headers['task-assist-token']
-        if (!token || !AuthHandle.get(token)) return response.status(HttpStatus.OK).json(consequencer.error(ResultCode.ACCESS_DENIED.description, ResultCode.ACCESS_DENIED.value));
+        if (!token) return response.status(HttpStatus.OK).json(consequencer.error(ResultCode.ACCESS_DENIED.description, ResultCode.ACCESS_DENIED.value));
+
+        const auth = AuthHandle.get(token)
+        if (auth.result !== 1) response.status(HttpStatus.OK).json(auth);
 
         return true
     }
