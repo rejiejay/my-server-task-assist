@@ -1,4 +1,4 @@
-import { Controller, Request, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller,  Get, Post } from '@nestjs/common';
 
 import { consequencer } from 'src/utils/consequencer';
 

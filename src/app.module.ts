@@ -4,11 +4,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './module/user/user.module';
+import { MapModule } from './module/map/map.module';
 
 import { mysqlConfig } from './config/mysql';
 
 @Module({
-    imports: [UserModule, TypeOrmModule.forRoot(mysqlConfig)],
+    imports: [
+        UserModule,
+        MapModule,
+        TypeOrmModule.forRoot(mysqlConfig)
+    ],
     controllers: [AppController],
     providers: [AppService],
 })
