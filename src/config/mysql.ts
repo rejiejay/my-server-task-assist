@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 
-import { User } from 'src/module/user/entity/user.entity';
+import { TaskAssisUser } from 'src/module/user/entity/user.entity';
 
 export const mysqlConfig: TypeOrmModuleOptions = {
     type: 'mysql',
@@ -9,6 +9,6 @@ export const mysqlConfig: TypeOrmModuleOptions = {
     username: 'root',
     password: 'DFqew=1938167',
     database: 'task_assist',
-    entities: [User],
+    entities: [TaskAssisUser],
     synchronize: true,
 }
