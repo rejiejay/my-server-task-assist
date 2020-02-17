@@ -17,7 +17,7 @@ export class MapService {
         const myMap = await this.repository.findOne({ key });
 
         if (!myMap) return consequencer.error(`key[${key}] is error`);
-        
+
         return consequencer.success(myMap);
     }
 

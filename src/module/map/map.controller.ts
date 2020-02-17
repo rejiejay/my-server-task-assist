@@ -30,4 +30,14 @@ export class MapController {
 
         return this.mapService.setValue(key, value);
     }
+
+    @Get('clear')
+    async clearValue(@Query() query: any): Promise<object> {
+        const { key } = query
+
+        if (!key) return consequencer.error('参数有误');
+
+        const value = ''
+        return this.mapService.setValue(key, value);
+    }
 }
