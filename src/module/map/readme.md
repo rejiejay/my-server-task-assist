@@ -13,3 +13,7 @@
 - post:/map/set
 [设置映射关系](http://localhost:1932/map/get?key=target&value=[{key:value}])
 
+- clear:/map/clear
+[清空映射关系](http://localhost:1932/map/clear?key=target)
+
+
