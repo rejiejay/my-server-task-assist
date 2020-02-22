@@ -30,4 +30,22 @@ export class TaskService {
         if (!result || result instanceof Array === false || result.length === 0) return consequencer.error('sql incorrect query');
         return consequencer.success(result[0]);
     }
+
+    async add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion }): Promise<Consequencer> {
+        let task = new TaskAssisTask()
+        task.targetId = targetId
+        task.title = title
+        task.content = content
+        task.measure = measure
+        task.span = span
+        task.aspects = aspects
+        task.worth = worth
+        task.estimate = estimate
+        task.putoffTimestamp = putoffTimestamp
+        task.conclusion = conclusion
+
+        const result = await this.repository.save(task);
+        if (!result) return consequencer.error('add task to repository failure');
+        return consequencer.success(result.id);
+    }
 }

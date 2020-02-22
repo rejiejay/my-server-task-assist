@@ -12,12 +12,15 @@ export class TaskAssisTask {
     @Column({ type: 'tinytext' })
     targetId: string;
 
-    // 任务 标题
+    // 标题
     @Column({ type: 'tinytext' })
     title: string;
     // 任务 内容
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     content: string;
+    // 结论
+    @Column({ type: 'longtext', nullable: true })
+    conclusion: string;
 
     // 任务 衡量完成标准
     @Column({ type: 'tinytext', nullable: true })
@@ -44,9 +47,6 @@ export class TaskAssisTask {
 	 */
     @Column({ type: 'text', nullable: true })
     image: string;
-    // 结论
-    @Column({ type: 'longtext', nullable: true })
-    conclusion: string;
 
     // 任务 推迟
     @Column({ type: 'bigint', nullable: true })

@@ -8,6 +8,6 @@ export class TaskAssisMap {
     @Column({ length: 18 })
     key: string;
 
-    @Column({type: 'longtext'})
+    @Column({ type: 'longtext', nullable: true })
     value: string;
 }

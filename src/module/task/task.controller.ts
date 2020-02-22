@@ -23,4 +23,13 @@ export class TaskController {
 
         return await this.taskService.getRandom()
     }
+
+    @Post('add')
+    async setValue(@Body() body: any): Promise<object> {
+        const { targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion } = body
+
+        if (!targetId || !title || !content) return consequencer.error('参数有误');
+
+        return this.taskService.add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
+    }
 }
