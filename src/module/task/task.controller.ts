@@ -32,4 +32,13 @@ export class TaskController {
 
         return this.taskService.add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
     }
+
+    @Post('update')
+    async updateValue(@Body() body: any): Promise<object> {
+        const { id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion } = body
+
+        if (!id || !title || !content) return consequencer.error('参数有误');
+
+        return this.taskService.update({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
+    }
 }

@@ -45,7 +45,18 @@ export class TaskService {
         task.conclusion = conclusion
 
         const result = await this.repository.save(task);
-        if (!result) return consequencer.error('add task to repository failure');
-        return consequencer.success(result.id);
+        return result ? consequencer.success(result) : consequencer.error('add task to repository failure');
+    }
+
+    async update({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion }): Promise<Consequencer> {
+        const task = await this.getById(id);
+
+        if (task.result !== 1) return task;
+
+        const result = await this.repository.update(task.data, { title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
+
+        return consequencer.error(`update task[${title}] failure`);
     }
 }
