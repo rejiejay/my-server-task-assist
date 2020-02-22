@@ -14,9 +14,22 @@ export class TaskService {
     ) { }
 
     async getById(taskId: number): Promise<Consequencer> {
-        const result = await this.repository.findOne({ id: taskId });
+        const task = await this.repository.findOne({ id: taskId });
 
-        return result ? consequencer.success(result) : consequencer.error('This task does not exist');
+        if (!task) return consequencer.error('This task does not exist');
+
+        /**
+         * 含义: 顺手清空一下推迟时间
+         */
+        const nowTimestamp = new Date().getTime()
+        if (task.putoffTimestamp && nowTimestamp > task.putoffTimestamp) {
+
+            const result = await this.repository.update(task, { putoffTimestamp: null });
+
+            if (!result || !result.raw || result.raw.warningCount !== 0) return consequencer.error('This task is exist, but update putoffTimestamp sql incorrect!');
+        }
+
+        return consequencer.success(task)
     }
 
     /**
