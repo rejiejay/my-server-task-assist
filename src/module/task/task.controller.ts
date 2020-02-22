@@ -19,9 +19,9 @@ export class TaskController {
 
         if (taskId) return await this.taskService.getById(taskId);
 
-        if (targetId) return await this.taskService.getRandomByTarget(targetId);
+        if (targetId) return await this.taskService.getUnDoneByRandomTarget(targetId);
 
-        return await this.taskService.getRandom()
+        return await this.taskService.getUnDoneByRandom()
     }
 
     @Post('add')
