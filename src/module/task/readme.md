@@ -6,5 +6,5 @@
 - post:/task/add
 [新增一个任务](http://localhost:1932/task/add)
 
-- post:/task/update
-[编辑任务](http://localhost:1932/task/update)
+- post:/task/complete
+[编完成任务](http://localhost:1932/task/complete)

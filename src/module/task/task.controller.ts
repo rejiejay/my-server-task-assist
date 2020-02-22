@@ -41,4 +41,13 @@ export class TaskController {
 
         return this.taskService.update({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
     }
+
+    @Post('complete')
+    async completeValue(@Body() body: any): Promise<object> {
+        const { id } = body
+
+        if (!id) return consequencer.error('参数有误');
+
+        return this.taskService.complete(id);
+    }
 }

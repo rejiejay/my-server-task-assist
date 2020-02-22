@@ -59,4 +59,20 @@ export class TaskService {
 
         return consequencer.error(`update task[${title}] failure`);
     }
+
+    async complete(id: number): Promise<Consequencer> {
+        const task = await this.getById(id);
+
+        if (task.result !== 1) return task;
+
+        let { completeTimestamp } = task.data
+        if (completeTimestamp) return consequencer.error(`The task has been completed`);
+
+        completeTimestamp = new Date().getTime()
+        const result = await this.repository.update(task.data, { completeTimestamp });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(task.data);
+
+        return consequencer.error(`complete task failure`);
+    }
 }
