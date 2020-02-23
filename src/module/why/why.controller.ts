@@ -57,4 +57,13 @@ export class WhyController {
 
         return this.whyService.delete({ id });
     }
+
+    @Get('get/reasonable')
+    async getByReasonable(@Query() query: any): Promise<object> {
+        const { targetId } = query
+
+        if (!targetId) return consequencer.error('参数有误');
+
+        return this.whyService.getByReasonable(targetId);
+    }
 }

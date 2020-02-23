@@ -64,4 +64,11 @@ export class WhyService {
         if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(why.data);
         return consequencer.error(`delete why[${id}] failure`);
     }
+
+    async getByReasonable(targetId): Promise<Consequencer> {
+        const result = await this.repository.query(`select * from task_assis_why where targetId="${targetId}" AND stickyTimestamp IS NOT NULL order by stickyTimestamp desc;`);
+
+        if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
+        return consequencer.success(result);
+    }
 }

@@ -14,3 +14,6 @@
 
 - post:/why/delete
 [删除一个理由](http://localhost:1932/why/delete)
+
+- get:/why/get/reasonable
+[获取理由最大](http://localhost:1932/why/get/reasonable)
