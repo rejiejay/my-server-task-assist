@@ -3,6 +3,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-op
 import { TaskAssisUser } from 'src/module/user/entity/user.entity';
 import { TaskAssisMap } from 'src/module/map/entity/map.entity';
 import { TaskAssisTask } from 'src/module/task/entity/task.entity';
+import { TaskAssisWhy } from 'src/module/why/entity/why.entity';
 
 export const mysqlConfig: TypeOrmModuleOptions = {
     type: 'mysql',
@@ -11,6 +12,6 @@ export const mysqlConfig: TypeOrmModuleOptions = {
     username: 'root',
     password: 'DFqew=1938167',
     database: 'task_assist',
-    entities: [TaskAssisUser, TaskAssisMap, TaskAssisTask],
+    entities: [TaskAssisUser, TaskAssisMap, TaskAssisTask, TaskAssisWhy],
     synchronize: true,
 }
