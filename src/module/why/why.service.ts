@@ -71,4 +71,11 @@ export class WhyService {
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
         return consequencer.success(result);
     }
+
+    async getByRandom(targetId, count): Promise<Consequencer> {
+        const result = await this.repository.query(`select * from task_assis_why where targetId="${targetId}" order by rand() limit ${count};`);
+
+        if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
+        return consequencer.success(result);
+    }
 }

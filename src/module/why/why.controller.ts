@@ -66,4 +66,13 @@ export class WhyController {
 
         return this.whyService.getByReasonable(targetId);
     }
+
+    @Get('get/random')
+    async getByRandom(@Query() query: any): Promise<object> {
+        const { targetId, count } = query
+
+        if (!targetId) return consequencer.error('参数有误');
+
+        return this.whyService.getByRandom(targetId, count ? +count : 1);
+    }
 }

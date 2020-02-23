@@ -17,3 +17,6 @@
 
 - get:/why/get/reasonable
 [获取理由最大](http://localhost:1932/why/get/reasonable)
+
+- get:/why/get/random
+[随机获取理由](http://localhost:1932/why/get/random)
