@@ -8,3 +8,6 @@
 
 - post:/task/complete
 [编完成任务](http://localhost:1932/task/complete)
+
+- post:/task/delete
+[删除任务](http://localhost:1932/task/delete)

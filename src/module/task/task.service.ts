@@ -99,4 +99,15 @@ export class TaskService {
 
         return consequencer.error(`complete task failure`);
     }
+
+    async delete(id: number): Promise<Consequencer> {
+        const task = await this.getById(id);
+
+        if (task.result !== 1) return task;
+
+        const result = await this.repository.delete(task.data)
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success();
+
+        return consequencer.error(`delete task failure`);
+    }
 }
