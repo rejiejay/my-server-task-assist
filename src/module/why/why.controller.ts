@@ -39,4 +39,22 @@ export class WhyController {
 
         return this.whyService.edit({ id, content });
     }
+
+    @Get('get/one')
+    async getById(@Query() query: any): Promise<object> {
+        const { id } = query
+
+        if (!id) return consequencer.error('参数有误');
+
+        return this.whyService.getById(id);
+    }
+
+    @Post('delete')
+    async deleteValue(@Body() body: any): Promise<object> {
+        const { id } = body
+
+        if (!id) return consequencer.error('参数有误');
+
+        return this.whyService.delete({ id });
+    }
 }

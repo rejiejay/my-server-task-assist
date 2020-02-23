@@ -54,4 +54,14 @@ export class WhyService {
 
         return consequencer.error(`update why[${id}] failure`);
     }
+
+    async delete({ id }): Promise<Consequencer> {
+        const why = await this.getById(id);
+
+        if (why.result !== 1) return why;
+
+        const result = await this.repository.delete(why.data);
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(why.data);
+        return consequencer.error(`delete why[${id}] failure`);
+    }
 }

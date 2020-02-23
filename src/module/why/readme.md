@@ -8,3 +8,9 @@
 
 - post:/why/edit
 [编辑理由](http://localhost:1932/why/edit)
+
+- get:/why/get/one
+[获取一个理由](http://localhost:1932/why/get/one)
+
+- post:/why/delete
+[删除一个理由](http://localhost:1932/why/delete)
