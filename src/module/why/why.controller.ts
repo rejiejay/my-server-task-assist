@@ -12,4 +12,13 @@ export class WhyController {
     testWhy(): string {
         return 'This action is test why';
     }
+
+    @Post('add')
+    async setValue(@Body() body: any): Promise<object> {
+        const { targetId, content } = body
+
+        if (!targetId || !content) return consequencer.error('参数有误');
+
+        return this.whyService.add({ targetId, content });
+    }
 }
