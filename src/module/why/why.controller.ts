@@ -30,4 +30,13 @@ export class WhyController {
 
         return this.whyService.getNewLists({ targetId });
     }
+
+    @Post('edit')
+    async editValue(@Body() body: any): Promise<object> {
+        const { id, content } = body
+
+        if (!id || !content) return consequencer.error('参数有误');
+
+        return this.whyService.edit({ id, content });
+    }
 }

@@ -13,14 +13,22 @@ export class WhyService {
         private readonly repository: Repository<TaskAssisWhy>,
     ) { }
 
-    async add({ targetId, content }): Promise<Consequencer> {
-        let task = new TaskAssisWhy()
-        task.targetId = targetId
-        task.content = content
-        task.sqlTimestamp = new Date().getTime()
+    async getById(id: number): Promise<Consequencer> {
+        const why = await this.repository.findOne({ id });
 
-        const result = await this.repository.save(task);
-        return result ? consequencer.success(result) : consequencer.error('add task to repository failure');
+        if (!why) return consequencer.error('This reason does not exist');
+
+        return consequencer.success(why)
+    }
+
+    async add({ targetId, content }): Promise<Consequencer> {
+        let why = new TaskAssisWhy()
+        why.targetId = targetId
+        why.content = content
+        why.sqlTimestamp = new Date().getTime()
+
+        const result = await this.repository.save(why);
+        return result ? consequencer.success(result) : consequencer.error('add why to repository failure');
     }
 
     /**
@@ -32,5 +40,18 @@ export class WhyService {
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
 
         return consequencer.success(result);
+    }
+
+    async edit({ id, content }): Promise<Consequencer> {
+        const why = await this.getById(id);
+
+        if (why.result !== 1) return why;
+
+        const sqlTimestamp = new Date().getTime()
+        const result = await this.repository.update(why.data, { content, sqlTimestamp });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(why.data);
+
+        return consequencer.error(`update why[${id}] failure`);
     }
 }
