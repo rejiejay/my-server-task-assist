@@ -20,3 +20,6 @@
 
 - get:/task/list/complete
 [获取所有完成任务](http://localhost:1932/task/list/complete)
+
+- get:/task/statistics
+[统计所有完成任务](http://localhost:1932/task/statistics)

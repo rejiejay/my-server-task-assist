@@ -74,10 +74,10 @@ export class TaskController {
         return await this.taskService.getPutoffTasks(targetId);
     }
 
-    @Get('get/list/complete')
-    async getCompleteTasks(@Query() query: any): Promise<Consequencer> {
-        const { targetId, pageNo } = query
+    @Get('statistics')
+    async statisticsTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId } = query
 
-        return await this.taskService.getCompleteTasks(targetId, +pageNo);
+        return await this.taskService.statisticsTasks(targetId);
     }
 }
