@@ -11,3 +11,12 @@
 
 - post:/task/delete
 [删除任务](http://localhost:1932/task/delete)
+
+- get:/task/list/executable
+[获取所有可执行任务](http://localhost:1932/task/list/executable)
+
+- get:/task/list/putoff
+[获取所有延迟任务](http://localhost:1932/task/list/putoff)
+
+- get:/task/list/complete
+[获取所有完成任务](http://localhost:1932/task/list/complete)

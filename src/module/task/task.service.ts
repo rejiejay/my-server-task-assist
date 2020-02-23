@@ -37,7 +37,7 @@ export class TaskService {
      */
     async getUnDoneByRandomTarget(targetId: number): Promise<Consequencer> {
         const nowTimestamp = new Date().getTime()
-        const result = await this.repository.query(`select * from task_assis_task where targetId="${targetId}" AND (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) AND completeTimestamp IS NULL order by rand() limit 1;`);
+        const result = await this.repository.query(`select * from task_assis_task where completeTimestamp IS NULL AND targetId="${targetId}" AND (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) order by rand() limit 1;`);
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
         if (result.length === 0) return consequencer.error('你已完成所有任务');
         return consequencer.success(result[0]);
@@ -48,7 +48,7 @@ export class TaskService {
      */
     async getUnDoneByRandom(): Promise<Consequencer> {
         const nowTimestamp = new Date().getTime()
-        const result = await this.repository.query(`select * from task_assis_task where (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) AND completeTimestamp IS NULL order by rand() limit 1;`);
+        const result = await this.repository.query(`select * from task_assis_task where completeTimestamp IS NULL AND (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) order by rand() limit 1;`);
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
         if (result.length === 0) return consequencer.error('你已完成所有任务');
         return consequencer.success(result[0]);
@@ -66,6 +66,7 @@ export class TaskService {
         task.estimate = estimate
         task.putoffTimestamp = putoffTimestamp
         task.conclusion = conclusion
+        task.sqlTimestamp = new Date().getTime()
 
         const result = await this.repository.save(task);
         return result ? consequencer.success(result) : consequencer.error('add task to repository failure');
@@ -76,9 +77,10 @@ export class TaskService {
 
         if (task.result !== 1) return task;
 
-        const result = await this.repository.update(task.data, { title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
+        const sqlTimestamp = new Date().getTime()
+        const result = await this.repository.update(task.data, { title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, sqlTimestamp });
 
-        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, sqlTimestamp });
 
         return consequencer.error(`update task[${title}] failure`);
     }
@@ -109,5 +111,44 @@ export class TaskService {
         if (result && result.raw && result.raw.warningCount === 0) return consequencer.success();
 
         return consequencer.error(`delete task failure`);
+    }
+
+    async getExecutableTasks(targetId: string): Promise<Consequencer> {
+        const nowTimestamp = new Date().getTime()
+        const targetSQL = targetId ? `targetId="${targetId}" AND ` : ''
+        const result = await this.repository.query(`select * from task_assis_task where completeTimestamp IS NULL AND ${targetSQL}(putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) order by sqlTimestamp desc;`);
+
+        if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
+        return consequencer.success(result);
+    }
+
+    async getPutoffTasks(targetId: string): Promise<Consequencer> {
+        const nowTimestamp = new Date().getTime()
+        const targetSQL = targetId ? `targetId="${targetId}" AND ` : ''
+        const result = await this.repository.query(`select * from task_assis_task where completeTimestamp IS NULL AND putoffTimestamp IS NOT NULL AND ${targetSQL}putoffTimestamp>${nowTimestamp} order by sqlTimestamp desc;`);
+
+        if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
+        return consequencer.success(result);
+    }
+
+    /**
+     * 含义: 查询完成任务
+     * 注意: pageNo SQL 从0开始
+     */
+    async getCompleteTasks(targetId: string, pageNo: number): Promise<Consequencer> {
+        const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
+        (pageNo && pageNo > 0) ? (pageNo -= 1) : (pageNo = 0);
+        const list = await this.repository.query(`select * from task_assis_task where ${targetSQL}completeTimestamp IS NOT NULL order by sqlTimestamp desc limit ${pageNo}, 10;`);
+
+        if (!list || list instanceof Array === false) return consequencer.error('sql incorrect query');
+
+        const countRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp IS NOT NULL;`);
+        if (!countRepository || countRepository instanceof Array === false || countRepository.length < 1) return consequencer.error('sql incorrect query');
+        const count = countRepository[0]['count(*)']
+
+        return consequencer.success({
+            list,
+            count: count ? count : 0
+        });
     }
 }

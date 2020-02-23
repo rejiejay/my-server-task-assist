@@ -59,4 +59,25 @@ export class TaskController {
 
         return this.taskService.delete(id);
     }
+
+    @Get('get/list/executable')
+    async getExecutableTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId } = query
+
+        return await this.taskService.getExecutableTasks(targetId);
+    }
+
+    @Get('get/list/putoff')
+    async getPutoffTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId } = query
+
+        return await this.taskService.getPutoffTasks(targetId);
+    }
+
+    @Get('get/list/complete')
+    async getCompleteTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId, pageNo } = query
+
+        return await this.taskService.getCompleteTasks(targetId, +pageNo);
+    }
 }

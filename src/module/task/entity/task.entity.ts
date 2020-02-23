@@ -55,4 +55,8 @@ export class TaskAssisTask {
     // 完成时间
     @Column({ type: 'bigint', nullable: true })
     completeTimestamp: number;
+
+    // SQL时间戳
+    @Column({ type: 'bigint' })
+    sqlTimestamp: number;
 }
