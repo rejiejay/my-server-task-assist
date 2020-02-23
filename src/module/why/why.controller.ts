@@ -21,4 +21,13 @@ export class WhyController {
 
         return this.whyService.add({ targetId, content });
     }
+
+    @Get('get/three')
+    async getNewLists(@Query() query: any): Promise<object> {
+        const { targetId } = query
+
+        if (!targetId) return consequencer.error('参数有误');
+
+        return this.whyService.getNewLists({ targetId });
+    }
 }
