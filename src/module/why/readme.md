@@ -20,3 +20,6 @@
 
 - get:/why/get/random
 [随机获取理由](http://localhost:1932/why/get/random)
+
+- post:/why/edit/reasonable
+[设置最大理由](http://localhost:1932/why/edit/reasonable)

@@ -65,17 +65,32 @@ export class WhyService {
         return consequencer.error(`delete why[${id}] failure`);
     }
 
-    async getByReasonable(targetId): Promise<Consequencer> {
+    async getByReasonable(targetId: string): Promise<Consequencer> {
         const result = await this.repository.query(`select * from task_assis_why where targetId="${targetId}" AND stickyTimestamp IS NOT NULL order by stickyTimestamp desc;`);
 
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
         return consequencer.success(result);
     }
 
-    async getByRandom(targetId, count): Promise<Consequencer> {
+    async getByRandom(targetId: string, count: number): Promise<Consequencer> {
         const result = await this.repository.query(`select * from task_assis_why where targetId="${targetId}" order by rand() limit ${count};`);
 
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
         return consequencer.success(result);
+    }
+
+    async editReasonable(id: number, setToFullest: boolean): Promise<Consequencer> {
+        const why = await this.getById(id);
+
+        if (why.result !== 1) return why;
+
+        const nowTimestamp = new Date().getTime()
+        const sqlTimestamp = nowTimestamp
+        const stickyTimestamp = setToFullest ? nowTimestamp : null
+        const result = await this.repository.update(why.data, { stickyTimestamp, sqlTimestamp });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(why.data);
+
+        return consequencer.error(`update why[${id}] failure`);
     }
 }

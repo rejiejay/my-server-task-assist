@@ -75,4 +75,15 @@ export class WhyController {
 
         return this.whyService.getByRandom(targetId, count ? +count : 1);
     }
+
+    @Post('edit/reasonable')
+    async editReasonable(@Body() body: any): Promise<object> {
+        let { id, setToFullest } = body
+
+        if (!id) return consequencer.error('参数有误');
+
+        setToFullest = setToFullest ? true : false
+
+        return this.whyService.editReasonable(id, setToFullest);
+    }
 }
