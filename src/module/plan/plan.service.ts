@@ -13,4 +13,23 @@ export class PlanService {
         private readonly repository: Repository<TaskAssisPlan>,
     ) { }
 
+    /**
+     * 含义: 查询 计划方案
+     * 注意: pageNo SQL 从0开始
+     */
+    async getPlanpProgram(targetId: string, pageNo: number): Promise<Consequencer> {
+        (pageNo && pageNo > 0) ? (pageNo -= 1) : (pageNo = 0);
+        const list = await this.repository.query(`select * from task_assis_plan where targetId="${targetId}" AND program IS NOT NULL order by sqlTimestamp desc limit ${(pageNo * 10)}, 10;`);
+
+        if (!list || list instanceof Array === false) return consequencer.error('sql incorrect query');
+
+        const countRepository = await this.repository.query(`select count(*) from task_assis_plan where targetId="${targetId}" AND program IS NOT NULL;`);
+        if (!countRepository || countRepository instanceof Array === false || countRepository.length < 1) return consequencer.error('sql incorrect query');
+        const count = countRepository[0]['count(*)']
+
+        return consequencer.success({
+            list,
+            count: count ? count : 0
+        });
+    }
 }

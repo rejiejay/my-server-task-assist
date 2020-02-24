@@ -80,4 +80,13 @@ export class TaskController {
 
         return await this.taskService.statisticsTasks(targetId);
     }
+
+    @Get('get/list/complete')
+    async getCompleteTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId, pageNo } = query
+
+        if (!targetId) return consequencer.error('参数有误');
+
+        return await this.taskService.getCompleteTasks(targetId, +pageNo);
+    }
 }
