@@ -13,6 +13,14 @@ export class PlanService {
         private readonly repository: Repository<TaskAssisPlan>,
     ) { }
 
+    async getById(id: number): Promise<Consequencer> {
+        const plan = await this.repository.findOne({ id });
+
+        if (!plan) return consequencer.error('This Plan does not exist');
+
+        return consequencer.success(plan)
+    }
+
     /**
      * 含义: 查询 计划方案
      * 注意: pageNo SQL 从0开始
@@ -42,5 +50,18 @@ export class PlanService {
 
         const result = await this.repository.save(plan);
         return result ? consequencer.success(result) : consequencer.error('add plan to repository failure');
+    }
+
+    async editPlan({ id, program, according }): Promise<Consequencer> {
+        const plan = await this.getById(id);
+
+        if (plan.result !== 1) return plan;
+
+        const sqlTimestamp = new Date().getTime()
+        const result = await this.repository.update(plan.data, { program, according, sqlTimestamp });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(plan);
+
+        return consequencer.error(`update plan[${id}] failure`);
     }
 }

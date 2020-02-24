@@ -34,6 +34,24 @@ export class PlanController {
         if (!targetId) return consequencer.error('参数有误');
         if (!program && !according) return consequencer.error('参数有误');
 
-        return await this.PlanService.addPlan({targetId, program, according})
+        return await this.PlanService.addPlan({ targetId, program, according })
+    }
+
+    @Post('program/edit')
+    async editProgramPlan(@Body() body: any): Promise<Consequencer> {
+        const { id, program } = body
+
+        if (!id || !program) return consequencer.error('参数有误');
+
+        return await this.PlanService.editPlan({ id, program, according: null })
+    }
+
+    @Post('according/edit')
+    async editAccordingPlan(@Body() body: any): Promise<Consequencer> {
+        const { id, according } = body
+
+        if (!id || !according) return consequencer.error('参数有误');
+
+        return await this.PlanService.editPlan({ id, according, program: null })
     }
 }
