@@ -32,4 +32,15 @@ export class PlanService {
             count: count ? count : 0
         });
     }
+
+    async addPlan({ targetId, program, according }): Promise<Consequencer> {
+        let plan = new TaskAssisPlan()
+        plan.targetId = targetId
+        plan.program = program
+        plan.according = according
+        plan.sqlTimestamp = new Date().getTime()
+
+        const result = await this.repository.save(plan);
+        return result ? consequencer.success(result) : consequencer.error('add plan to repository failure');
+    }
 }
