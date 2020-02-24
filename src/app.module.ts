@@ -7,6 +7,7 @@ import { UserModule } from './module/user/user.module';
 import { MapModule } from './module/map/map.module';
 import { TaskModule } from './module/task/task.module';
 import { WhyModule } from './module/why/why.module';
+import { PlanModule } from './module/plan/plan.module';
 
 import { mysqlConfig } from './config/mysql';
 
@@ -16,6 +17,7 @@ import { mysqlConfig } from './config/mysql';
         MapModule,
         TaskModule,
         WhyModule,
+        PlanModule,
         TypeOrmModule.forRoot(mysqlConfig)
     ],
     controllers: [AppController],
