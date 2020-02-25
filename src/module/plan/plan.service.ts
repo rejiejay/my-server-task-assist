@@ -64,4 +64,19 @@ export class PlanService {
 
         return consequencer.error(`update plan[${id}] failure`);
     }
+
+    async getPlanpAccording(targetId: string): Promise<Consequencer> {
+        const random = await this.repository.query(`select * from task_assis_plan where targetId="${targetId}" AND according IS NOT NULL order by rand() limit 10;`);
+
+        if (!random || random instanceof Array === false) return consequencer.error('sql incorrect query');
+
+        const countRepository = await this.repository.query(`select count(*) from task_assis_plan where targetId="${targetId}" AND according IS NOT NULL;`);
+        if (!countRepository || countRepository instanceof Array === false || countRepository.length < 1) return consequencer.error('sql incorrect query');
+        const count = countRepository[0]['count(*)']
+
+        return consequencer.success({
+            random,
+            count: count ? count : 0
+        });
+    }
 }

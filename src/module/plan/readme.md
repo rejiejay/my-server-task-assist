@@ -11,3 +11,6 @@
 
 - post:/plan/according/edit
 [编辑计划依据](http://localhost:1932/plan/according/edit)
+
+- get:/plan/get/according/random
+[随机获取计划依据](http://localhost:1932/plan/get/according/random)

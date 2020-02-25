@@ -13,6 +13,15 @@ export class PlanController {
         return 'This action is test plan';
     }
 
+    @Get('get/one')
+    async getOne(@Query() query: any): Promise<Consequencer> {
+        const { id } = query
+
+        if (!id) return consequencer.error('参数有误');
+
+        return await this.PlanService.getById(id)
+    }
+
     @Get('get/program/list')
     async getPlanpProgram(@Query() query: any): Promise<Consequencer> {
         const { targetId, pageNo } = query
@@ -53,5 +62,14 @@ export class PlanController {
         if (!id || !according) return consequencer.error('参数有误');
 
         return await this.PlanService.editPlan({ id, according, program: null })
+    }
+
+    @Get('get/according/random')
+    async getPlanpAccording(@Query() query: any): Promise<Consequencer> {
+        const { targetId } = query
+
+        if (!targetId) return consequencer.error('参数有误');
+
+        return await this.PlanService.getPlanpAccording(targetId)
     }
 }
