@@ -23,3 +23,13 @@
 
 - get:/task/statistics
 [统计所有完成任务](http://localhost:1932/task/statistics)
+
+- get:/task/conclusion/list
+[获取结论时间](http://localhost:1932/task/conclusion/list)
+
+- get:/task/conclusion/random
+[获取结论随机](http://localhost:1932/task/conclusion/list)
+
+- get:/task/conclusion/statistics
+[统计结论](http://localhost:1932/task/conclusion/statistics)
+

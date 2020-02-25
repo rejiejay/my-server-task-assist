@@ -74,6 +74,13 @@ export class TaskController {
         return await this.taskService.getPutoffTasks(targetId);
     }
 
+    @Get('get/list/complete')
+    async getCompleteTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId, pageNo } = query
+
+        return await this.taskService.getCompleteTasks(targetId, +pageNo);
+    }
+
     @Get('statistics')
     async statisticsTasks(@Query() query: any): Promise<Consequencer> {
         const { targetId } = query
@@ -81,12 +88,24 @@ export class TaskController {
         return await this.taskService.statisticsTasks(targetId);
     }
 
-    @Get('get/list/complete')
-    async getCompleteTasks(@Query() query: any): Promise<Consequencer> {
+    @Get('task/conclusion/statistics')
+    async statisticsConclusionTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId } = query
+
+        return await this.taskService.statisticsConclusionTasks(targetId);
+    }
+
+    @Get('task/conclusion/list')
+    async listConclusionTasks(@Query() query: any): Promise<Consequencer> {
         const { targetId, pageNo } = query
 
-        if (!targetId) return consequencer.error('参数有误');
+        return await this.taskService.listConclusionTasks(targetId, +pageNo);
+    }
 
-        return await this.taskService.getCompleteTasks(targetId, +pageNo);
+    @Get('task/conclusion/random')
+    async randomConclusionTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId } = query
+
+        return await this.taskService.randomConclusionTasks(targetId);
     }
 }

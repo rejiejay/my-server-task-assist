@@ -198,4 +198,37 @@ export class TaskService {
             oneDayCount
         });
     }
+
+    async statisticsConclusionTasks(targetId: string): Promise<Consequencer> {
+        const countRepository = await this.repository.query(`select count(*) from task_assis_task where targetId="${targetId}" AND conclusion IS NOT NULL;`);
+        if (!countRepository || countRepository instanceof Array === false || countRepository.length < 1) return consequencer.error('sql incorrect query');
+        const count = countRepository[0]['count(*)']
+
+        return consequencer.success({
+            count: count || 0
+        });
+    }
+
+    async listConclusionTasks(targetId: string, pageNo: number): Promise<Consequencer> {
+        const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
+        (pageNo && pageNo > 0) ? (pageNo -= 1) : (pageNo = 0);
+        const list = await this.repository.query(`select * from task_assis_task where ${targetSQL}conclusion IS NOT NULL order by sqlTimestamp desc limit ${(pageNo * 10)}, 10;`);
+
+        if (!list || list instanceof Array === false) return consequencer.error('sql incorrect query');
+
+        return consequencer.success({
+            list
+        });
+    }
+
+    async randomConclusionTasks(targetId: string): Promise<Consequencer> {
+        const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
+        const random = await this.repository.query(`select * from task_assis_task where ${targetSQL}conclusion IS NOT NULL order by rand() limit 10;`);
+
+        if (!random || random instanceof Array === false) return consequencer.error('sql incorrect query');
+
+        return consequencer.success({
+            random
+        });
+    }
 }
