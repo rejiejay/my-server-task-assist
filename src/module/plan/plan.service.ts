@@ -79,4 +79,14 @@ export class PlanService {
             count: count ? count : 0
         });
     }
+
+    async delPlan({ id }): Promise<Consequencer> {
+        const plan = await this.getById(id);
+        if (plan.result !== 1) return plan;
+
+        const result = await this.repository.delete(plan.data);
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(plan);
+
+        return consequencer.error(`() plan[${id}] failure`);
+    }
 }

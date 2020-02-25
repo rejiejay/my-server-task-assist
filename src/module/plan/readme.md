@@ -14,3 +14,6 @@
 
 - get:/plan/get/according/random
 [随机获取计划依据](http://localhost:1932/plan/get/according/random)
+
+- post:/plan/del
+[删除计划](http://localhost:1932/plan/del)

@@ -72,4 +72,13 @@ export class PlanController {
 
         return await this.PlanService.getPlanpAccording(targetId)
     }
+
+    @Post('del')
+    async delPlan(@Body() body: any): Promise<Consequencer> {
+        const { id } = body
+
+        if (!id) return consequencer.error('参数有误');
+
+        return await this.PlanService.delPlan({ id })
+    }
 }
