@@ -88,21 +88,21 @@ export class TaskController {
         return await this.taskService.statisticsTasks(targetId);
     }
 
-    @Get('task/conclusion/statistics')
+    @Get('conclusion/statistics')
     async statisticsConclusionTasks(@Query() query: any): Promise<Consequencer> {
         const { targetId } = query
 
         return await this.taskService.statisticsConclusionTasks(targetId);
     }
 
-    @Get('task/conclusion/list')
+    @Get('conclusion/list')
     async listConclusionTasks(@Query() query: any): Promise<Consequencer> {
         const { targetId, pageNo } = query
 
         return await this.taskService.listConclusionTasks(targetId, +pageNo);
     }
 
-    @Get('task/conclusion/random')
+    @Get('conclusion/random')
     async randomConclusionTasks(@Query() query: any): Promise<Consequencer> {
         const { targetId } = query
 

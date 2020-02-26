@@ -28,7 +28,7 @@
 [获取结论时间](http://localhost:1932/task/conclusion/list)
 
 - get:/task/conclusion/random
-[获取结论随机](http://localhost:1932/task/conclusion/list)
+[获取结论随机](http://localhost:1932/task/conclusion/random)
 
 - get:/task/conclusion/statistics
 [统计结论](http://localhost:1932/task/conclusion/statistics)

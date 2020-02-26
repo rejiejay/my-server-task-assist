@@ -204,9 +204,7 @@ export class TaskService {
         if (!countRepository || countRepository instanceof Array === false || countRepository.length < 1) return consequencer.error('sql incorrect query');
         const count = countRepository[0]['count(*)']
 
-        return consequencer.success({
-            count: count || 0
-        });
+        return consequencer.success(count || 0);
     }
 
     async listConclusionTasks(targetId: string, pageNo: number): Promise<Consequencer> {
@@ -216,9 +214,7 @@ export class TaskService {
 
         if (!list || list instanceof Array === false) return consequencer.error('sql incorrect query');
 
-        return consequencer.success({
-            list
-        });
+        return consequencer.success(list);
     }
 
     async randomConclusionTasks(targetId: string): Promise<Consequencer> {
@@ -227,8 +223,6 @@ export class TaskService {
 
         if (!random || random instanceof Array === false) return consequencer.error('sql incorrect query');
 
-        return consequencer.success({
-            random
-        });
+        return consequencer.success(random);
     }
 }
