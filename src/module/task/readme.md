@@ -36,3 +36,6 @@
 - post:/task/conclusion/add
 [新增结论](http://localhost:1932/task/conclusion/add)
 
+- post:/task/image/upload
+[新增图片](http://localhost:1932/task/image/upload)
+

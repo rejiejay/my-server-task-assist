@@ -123,4 +123,13 @@ export class TaskController {
          */
         return this.taskService.add({ targetId, title, content: null, measure: null, span: null, aspects: null, worth: null, estimate: null, putoffTimestamp: null, conclusion, image });
     }
+
+    @Post('image/upload')
+    async uploadImage(@Body() body: any): Promise<object> {
+        const { imageBase64String } = body
+
+        if (!imageBase64String) return consequencer.error('参数有误');
+
+        return this.taskService.uploadImageTemporary(imageBase64String);
+    }
 }

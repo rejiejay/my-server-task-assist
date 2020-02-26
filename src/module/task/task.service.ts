@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { consequencer, Consequencer } from 'src/utils/consequencer';
+import { uploadByStr } from 'src/sdk/tencent-oss';
 
 import { TaskAssisTask } from './entity/task.entity';
 
@@ -225,5 +226,16 @@ export class TaskService {
         if (!random || random instanceof Array === false) return consequencer.error('sql incorrect query');
 
         return consequencer.success(random);
+    }
+
+    async uploadImageTemporary(imageBase64String: string): Promise<Consequencer> {
+        const nowTimestamp = new Date().getTime()
+        let path = `myweb/task-assist/temporary/${nowTimestamp}.png`;
+
+        return await uploadByStr({ str: imageBase64String, path }).then(() => {
+            return consequencer.success(path);
+        }, error => {
+            return consequencer.error(error);
+        })
     }
 }
