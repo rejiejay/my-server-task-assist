@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { consequencer, Consequencer } from 'src/utils/consequencer';
-import { uploadByStr } from 'src/sdk/tencent-oss';
+import { uploadByStr, getUploadInfor, pullCopyUpload, pullDeleteUpload } from 'src/sdk/tencent-oss';
 
 import { TaskAssisTask } from './entity/task.entity';
 
@@ -237,5 +237,38 @@ export class TaskService {
         }, error => {
             return consequencer.error(error);
         })
+    }
+
+    async toProduceImage({ temPath }): Promise<Consequencer> {
+        const uploadInfor = await getUploadInfor(temPath).then((infor) => {
+            return consequencer.success(infor);
+        }, error => {
+            return consequencer.error(error);
+        })
+
+        /** 含义: 路径下未找到任何数据 */
+        if (uploadInfor.result !== 1) return uploadInfor
+
+        const nowTimestamp = new Date().getTime()
+        const producePath = `myweb/task-assist/${nowTimestamp}.png`;
+        const copyUpload = await pullCopyUpload({ oldPath: temPath, newPath: producePath }).then((infor) => {
+            return consequencer.success(infor);
+        }, error => {
+            return consequencer.error(error);
+        })
+
+        /** 含义: 复制失败 */
+        if (copyUpload.result !== 1) return copyUpload
+
+        const deleteUpload = await pullDeleteUpload(temPath).then((infor) => {
+            return consequencer.success(infor);
+        }, error => {
+            return consequencer.error(error);
+        })
+        
+        /** 含义: 删除失败 */
+        if (deleteUpload.result !== 1) return deleteUpload
+
+        return consequencer.success(producePath);
     }
 }

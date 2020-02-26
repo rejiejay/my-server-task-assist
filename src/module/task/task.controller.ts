@@ -114,9 +114,23 @@ export class TaskController {
 
     @Post('conclusion/add')
     async setConclusionValue(@Body() body: any): Promise<object> {
-        const { targetId, title, conclusion, image } = body
+        const { targetId, title, conclusion } = body
+        let { image } = body
 
         if (!targetId || !title || !conclusion) return consequencer.error('参数有误');
+
+        /**
+         * 注意: image是一个路径(临时), 需要转化为正式路径
+         */
+        if (image) {
+            const transform = await this.taskService.toProduceImage({
+                temPath: image
+            })
+
+            if (transform.result !== 1) return transform;
+
+            image = transform.data
+        }
 
         /**
          * 注意: 因为是新增, 所以部分参数必定为空
@@ -124,6 +138,9 @@ export class TaskController {
         return this.taskService.add({ targetId, title, content: null, measure: null, span: null, aspects: null, worth: null, estimate: null, putoffTimestamp: null, conclusion, image });
     }
 
+    /**
+     * 注意: 返回的是一个路径(临时)
+     */
     @Post('image/upload')
     async uploadImage(@Body() body: any): Promise<object> {
         const { imageBase64String } = body

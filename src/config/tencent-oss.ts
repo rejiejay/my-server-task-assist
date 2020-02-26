@@ -1,5 +1,6 @@
 export const ossConfig = {
-    origin: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myserver/',
+    origin: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/',
+    copySource: 'rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/',
     region: 'ap-guangzhou',
     bucket: 'rejiejay-1251940173',
     appId: '1251940173',
