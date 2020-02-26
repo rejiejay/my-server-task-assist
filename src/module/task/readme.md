@@ -33,3 +33,6 @@
 - get:/task/conclusion/statistics
 [统计结论](http://localhost:1932/task/conclusion/statistics)
 
+- post:/task/conclusion/add
+[新增结论](http://localhost:1932/task/conclusion/add)
+

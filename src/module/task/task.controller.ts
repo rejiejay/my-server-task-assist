@@ -24,13 +24,16 @@ export class TaskController {
         return await this.taskService.getUnDoneByRandom()
     }
 
+    /**
+     * 注意: Task新增不能新增图片
+     */
     @Post('add')
     async setValue(@Body() body: any): Promise<object> {
         const { targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion } = body
 
         if (!targetId || !title || !content) return consequencer.error('参数有误');
 
-        return this.taskService.add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
+        return this.taskService.add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, image: null });
     }
 
     @Post('update')
@@ -107,5 +110,17 @@ export class TaskController {
         const { targetId } = query
 
         return await this.taskService.randomConclusionTasks(targetId);
+    }
+
+    @Post('conclusion/add')
+    async setConclusionValue(@Body() body: any): Promise<object> {
+        const { targetId, title, conclusion, image } = body
+
+        if (!targetId || !title || !conclusion) return consequencer.error('参数有误');
+
+        /**
+         * 注意: 因为是新增, 所以部分参数必定为空
+         */
+        return this.taskService.add({ targetId, title, content: null, measure: null, span: null, aspects: null, worth: null, estimate: null, putoffTimestamp: null, conclusion, image });
     }
 }

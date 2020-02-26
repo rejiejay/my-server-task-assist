@@ -45,7 +45,7 @@ export class TaskAssisTask {
 	 * 
 	 * @doc https://cloud.tencent.com/document/product/436/13324
 	 */
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'tinytext', nullable: true })
     image: string;
 
     // 任务 推迟
