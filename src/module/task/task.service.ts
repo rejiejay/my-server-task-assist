@@ -232,7 +232,10 @@ export class TaskService {
         const nowTimestamp = new Date().getTime()
         let path = `myweb/task-assist/temporary/${nowTimestamp}.png`;
 
-        return await uploadByStr({ str: imageBase64String, path }).then(() => {
+        /** 注意: UI值是经过Base64加密过后的值 */
+        const str = imageBase64String.replace(/^data:image\/\w+;base64,/, '')
+
+        return await uploadByStr({ str, path, encoding: 'base64' }).then(() => {
             return consequencer.success(path);
         }, error => {
             return consequencer.error(error);
@@ -265,7 +268,7 @@ export class TaskService {
         }, error => {
             return consequencer.error(error);
         })
-        
+
         /** 含义: 删除失败 */
         if (deleteUpload.result !== 1) return deleteUpload
 

@@ -1,5 +1,5 @@
 const COS = require('cos-nodejs-sdk-v5');
-import { Readable } from 'stream'
+import { PassThrough } from 'stream'
 
 import { ossConfig } from 'src/config/tencent-oss'
 
@@ -11,33 +11,21 @@ const mountInstance = new COS({
 export const oss = mountInstance
 
 /**
- * 含义: 重写 stream Readable 的类
- * 目的: 根据字符串创建一个可读流
+ * 含义: 通过 Buffer 创建 可读流
  */
-class CreateReadStreamByString extends Readable {
-    myString = ''
-
-    constructor(str: string) {
-        super({ encoding: 'utf8' });
-        this.myString = str;
-    }
-
-    /**
-     * 意义: 重写方法
-     */
-    _read() {
-        this.push(this.myString);
-        /** 含义: 触发 end 事件 */
-        this.push(null);
-    }
+const buffertoReadStream = (str: string, encoding) => {
+    const bufferStream = new PassThrough();
+    bufferStream.end(new Buffer(str, encoding ? encoding : 'utf8'));
+    
+    return bufferStream
 }
 
-export const uploadByStr = ({ str, path }) => new Promise((resolve, reject) => {
+export const uploadByStr = ({ str, path, encoding }) => new Promise((resolve, reject) => {
     mountInstance.putObject({
         Bucket: ossConfig.bucket,
         Region: ossConfig.region,
         Key: path,
-        Body: new CreateReadStreamByString(str),
+        Body: buffertoReadStream(str, encoding),
     }, function (err, data, ETag) {
         if (err) return reject(err);
         resolve(data);
