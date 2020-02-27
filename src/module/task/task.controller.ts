@@ -159,4 +159,9 @@ export class TaskController {
 
         return this.taskService.editConclusion({ id, title, conclusion, image });
     }
+
+    @Get('image/credential')
+    async getImageCredential(@Query() query: any): Promise<Consequencer> {
+        return await this.taskService.getImageCredential();
+    }
 }
