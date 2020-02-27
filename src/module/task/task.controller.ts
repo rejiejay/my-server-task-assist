@@ -33,7 +33,7 @@ export class TaskController {
 
         if (!targetId || !title || !content) return consequencer.error('参数有误');
 
-        return this.taskService.add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, image: null });
+        return this.taskService.add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, image: null, completeTimestamp: null });
     }
 
     @Post('update')
@@ -135,7 +135,8 @@ export class TaskController {
         /**
          * 注意: 因为是新增, 所以部分参数必定为空
          */
-        return this.taskService.add({ targetId, title, content: null, measure: null, span: null, aspects: null, worth: null, estimate: null, putoffTimestamp: null, conclusion, image });
+        const completeTimestamp = new Date().getTime()
+        return this.taskService.add({ targetId, title, content: null, measure: null, span: null, aspects: null, worth: null, estimate: null, putoffTimestamp: null, conclusion, image, completeTimestamp });
     }
 
     /**

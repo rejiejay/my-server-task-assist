@@ -55,7 +55,7 @@ export class TaskService {
         return consequencer.success(result[0]);
     }
 
-    async add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, image }): Promise<Consequencer> {
+    async add({ targetId, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, image, completeTimestamp }): Promise<Consequencer> {
         let task = new TaskAssisTask()
         task.targetId = targetId
         task.title = title
@@ -68,6 +68,7 @@ export class TaskService {
         task.putoffTimestamp = putoffTimestamp
         task.conclusion = conclusion
         task.image = image
+        task.completeTimestamp = completeTimestamp // 注意: 结论会影响到
         task.sqlTimestamp = new Date().getTime()
 
         const result = await this.repository.save(task);
