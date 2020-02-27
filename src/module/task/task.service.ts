@@ -109,6 +109,15 @@ export class TaskService {
 
         if (task.result !== 1) return task;
 
+        if (task.data.image) {
+            /** 删除图片? */
+            const del = await this.delImage({
+                path: task.data.image
+            })
+
+            if (del.result !== 1) return del;
+        }
+
         const result = await this.repository.delete(task.data)
         if (result && result.raw && result.raw.warningCount === 0) return consequencer.success();
 
@@ -356,29 +365,5 @@ export class TaskService {
 
         if (update.result !== 1) return update;
         return consequencer.success(update.data);
-    }
-
-    async delConclusionValue(id): Promise<Consequencer> {
-        const task = await this.getById(id);
-
-        if (task.result !== 1) return task;
-        const conclusion = task.data
-
-        if (conclusion.image) {
-            /** 删除图片? */
-            const del = await this.delImage({
-                path: conclusion.image
-            })
-
-            if (del.result !== 1) return del;
-        }
-
-        const sqlTimestamp = new Date().getTime()
-        const result = await this.repository.delete(task.data);
-
-        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success();
-
-        return consequencer.error(`delete conclusion[${conclusion.title}] failure`);
-
     }
 }

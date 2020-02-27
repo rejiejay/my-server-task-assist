@@ -158,13 +158,4 @@ export class TaskController {
 
         return this.taskService.editConclusion({ id, title, conclusion, image });
     }
-
-    @Post('conclusion/del')
-    async delConclusionValue(@Body() body: any): Promise<object> {
-        const { id } = body
-
-        if (!id) return consequencer.error('参数有误');
-
-        return this.taskService.delConclusionValue(id);
-    }
 }
