@@ -264,7 +264,9 @@ export class TaskService {
         if (copyUpload.result !== 1) return copyUpload
 
         /** 含义: 删除 */
-        const deleteUpload = await this.delImage(temPath)
+        const deleteUpload = await this.delImage({
+            path: temPath
+        })
         if (deleteUpload.result !== 1) return deleteUpload
 
         return consequencer.success(producePath);
@@ -310,7 +312,7 @@ export class TaskService {
         }
 
         const sqlTimestamp = new Date().getTime()
-        const result = await this.repository.update(task.data, { title, conclusion, image, sqlTimestamp });
+        const result = await this.repository.update(task.data, { title, conclusion, image: newImage, sqlTimestamp });
 
         if (result && result.raw && result.raw.warningCount === 0) return consequencer.success();
 
