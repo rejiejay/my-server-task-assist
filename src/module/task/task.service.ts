@@ -148,9 +148,10 @@ export class TaskService {
      * 注意: pageNo SQL 从0开始
      */
     async getCompleteTasks(targetId: string, pageNo: number): Promise<Consequencer> {
+        /** 注意: 任务内容为空，就一定是结论；此处的需求不统计结论； */
         const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
         (pageNo && pageNo > 0) ? (pageNo -= 1) : (pageNo = 0);
-        const list = await this.repository.query(`select * from task_assis_task where ${targetSQL}completeTimestamp IS NOT NULL order by sqlTimestamp desc limit ${(pageNo * 10)}, 10;`);
+        const list = await this.repository.query(`select * from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp IS NOT NULL order by sqlTimestamp desc limit ${(pageNo * 10)}, 10;`);
 
         if (!list || list instanceof Array === false) return consequencer.error('sql incorrect query');
 
@@ -165,6 +166,7 @@ export class TaskService {
     }
 
     async statisticsTasks(targetId: string): Promise<Consequencer> {
+        /** 注意: 任务内容为空，就一定是结论；此处的需求不统计结论； */
         const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
         const nowTimestamp = new Date().getTime()
         const minuteTimestamp = 1000 * 60
@@ -172,32 +174,32 @@ export class TaskService {
         const dayTimestamp = hourTimestamp * 24
 
         const monthAgoTimestamp = nowTimestamp - (dayTimestamp * 30)
-        const monthCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp>${monthAgoTimestamp};`);
+        const monthCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp>${monthAgoTimestamp};`);
         if (!monthCountRepository || monthCountRepository instanceof Array === false || monthCountRepository.length < 1) return consequencer.error('sql incorrect query');
         const monthCount = monthCountRepository[0]['count(*)']
 
         const twoWeekAgoTimestamp = nowTimestamp - (dayTimestamp * 14)
-        const twoWeekCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp>${twoWeekAgoTimestamp};`);
+        const twoWeekCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp>${twoWeekAgoTimestamp};`);
         if (!twoWeekCountRepository || twoWeekCountRepository instanceof Array === false || twoWeekCountRepository.length < 1) return consequencer.error('sql incorrect query');
         const twoWeekCount = twoWeekCountRepository[0]['count(*)']
 
         const oneWeekAgoTimestamp = nowTimestamp - (dayTimestamp * 7)
-        const oneWeekCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp>${oneWeekAgoTimestamp};`);
+        const oneWeekCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp>${oneWeekAgoTimestamp};`);
         if (!oneWeekCountRepository || oneWeekCountRepository instanceof Array === false || oneWeekCountRepository.length < 1) return consequencer.error('sql incorrect query');
         const oneWeekCount = oneWeekCountRepository[0]['count(*)']
 
         const threeDayAgoTimestamp = nowTimestamp - (dayTimestamp * 3)
-        const threeDayCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp>${threeDayAgoTimestamp};`);
+        const threeDayCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp>${threeDayAgoTimestamp};`);
         if (!threeDayCountRepository || threeDayCountRepository instanceof Array === false || threeDayCountRepository.length < 1) return consequencer.error('sql incorrect query');
         const threeDayCount = threeDayCountRepository[0]['count(*)']
 
         const towDayAgoTimestamp = nowTimestamp - (dayTimestamp * 2)
-        const towDayCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp>${towDayAgoTimestamp};`);
+        const towDayCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp>${towDayAgoTimestamp};`);
         if (!towDayCountRepository || towDayCountRepository instanceof Array === false || towDayCountRepository.length < 1) return consequencer.error('sql incorrect query');
         const towDayCount = towDayCountRepository[0]['count(*)']
 
         const oneDayAgoTimestamp = nowTimestamp - (dayTimestamp * 1)
-        const oneDayCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp>${oneDayAgoTimestamp};`);
+        const oneDayCountRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp>${oneDayAgoTimestamp};`);
         if (!oneDayCountRepository || oneDayCountRepository instanceof Array === false || oneDayCountRepository.length < 1) return consequencer.error('sql incorrect query');
         const oneDayCount = oneDayCountRepository[0]['count(*)']
 
