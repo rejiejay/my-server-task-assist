@@ -41,3 +41,6 @@
 
 - post:/task/conclusion/edit
 [编辑结论](http://localhost:1932/task/conclusion/edit)
+
+- post:/task/conclusion/del
+[删除结论](http://localhost:1932/task/conclusion/del)
