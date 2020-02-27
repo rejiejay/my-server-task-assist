@@ -39,3 +39,5 @@
 - post:/task/image/upload
 [新增图片](http://localhost:1932/task/image/upload)
 
+- post:/task/conclusion/edit
+[编辑结论](http://localhost:1932/task/conclusion/edit)

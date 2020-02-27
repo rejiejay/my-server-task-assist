@@ -149,4 +149,13 @@ export class TaskController {
 
         return this.taskService.uploadImageTemporary(imageBase64String);
     }
+
+    @Post('conclusion/edit')
+    async editConclusionValue(@Body() body: any): Promise<object> {
+        const { id, title, conclusion, image } = body
+
+        if (!id || !title || !conclusion) return consequencer.error('参数有误');
+
+        return this.taskService.editConclusion({ id, title, conclusion, image });
+    }
 }

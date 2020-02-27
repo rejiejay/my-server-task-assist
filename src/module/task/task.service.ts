@@ -263,7 +263,72 @@ export class TaskService {
         /** 含义: 复制失败 */
         if (copyUpload.result !== 1) return copyUpload
 
-        const deleteUpload = await pullDeleteUpload(temPath).then((infor) => {
+        /** 含义: 删除 */
+        const deleteUpload = await this.delImage(temPath)
+        if (deleteUpload.result !== 1) return deleteUpload
+
+        return consequencer.success(producePath);
+    }
+
+
+    async editConclusion({ id, title, conclusion, image }): Promise<Consequencer> {
+        const task = await this.getById(id);
+
+        if (task.result !== 1) return task;
+        const oldTask = task.data
+
+        const oldImage = oldTask.image
+        let newImage = null
+        if (oldImage && image && oldImage !== image) {
+            /** 更新图片? */
+            const update = await this.updatePoduceImage({
+                oldImagePath: oldImage,
+                newImagePath: image,
+            })
+
+            if (update.result !== 1) return update;
+
+            newImage = update.data
+        } else if (oldImage && !image) {
+            /** 删除图片? */
+            const del = await this.delImage({
+                path: oldImage
+            })
+
+            if (del.result !== 1) return del;
+
+            newImage = null
+        } else if (!oldImage && image) {
+            /** 新增图片? */
+            const transform = await this.toProduceImage({
+                temPath: image
+            })
+
+            if (transform.result !== 1) return transform;
+
+            newImage = transform.data
+        }
+
+        const sqlTimestamp = new Date().getTime()
+        const result = await this.repository.update(task.data, { title, conclusion, image, sqlTimestamp });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success();
+
+        return consequencer.error(`update conclusion[${title}] failure`);
+
+    }
+
+    async delImage({ path }): Promise<Consequencer> {
+        const delInfor = await getUploadInfor(path).then((infor) => {
+            return consequencer.success(infor);
+        }, error => {
+            return consequencer.error(error);
+        })
+
+        /** 含义: 路径下未找到任何数据 */
+        if (delInfor.result !== 1) return delInfor
+
+        const deleteUpload = await pullDeleteUpload(path).then((infor) => {
             return consequencer.success(infor);
         }, error => {
             return consequencer.error(error);
@@ -272,6 +337,23 @@ export class TaskService {
         /** 含义: 删除失败 */
         if (deleteUpload.result !== 1) return deleteUpload
 
-        return consequencer.success(producePath);
+        return consequencer.success();
+    }
+
+    async updatePoduceImage({ oldImagePath, newImagePath }): Promise<Consequencer> {
+        /** 删除掉图片 */
+        const del = await this.delImage({
+            path: oldImagePath
+        })
+
+        if (del.result !== 1) return del;
+
+        /** 更新图片 */
+        const update = await this.toProduceImage({
+            temPath: newImagePath
+        })
+
+        if (update.result !== 1) return update;
+        return consequencer.success(update.data);
     }
 }
