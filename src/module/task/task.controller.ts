@@ -117,7 +117,7 @@ export class TaskController {
         const { targetId, title, conclusion } = body
         let { image } = body
 
-        if (!targetId || !title || !conclusion) return consequencer.error('参数有误');
+        if (!title || !conclusion) return consequencer.error('参数有误');
 
         /**
          * 注意: image是一个路径(临时), 需要转化为正式路径

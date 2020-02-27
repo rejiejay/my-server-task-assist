@@ -15,8 +15,8 @@ export const oss = mountInstance
  */
 const buffertoReadStream = (str: string, encoding) => {
     const bufferStream = new PassThrough();
-    bufferStream.end(new Buffer(str, encoding ? encoding : 'utf8'));
-    
+    bufferStream.end(Buffer.from(str, encoding ? encoding : 'utf8'));
+
     return bufferStream
 }
 
