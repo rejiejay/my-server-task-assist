@@ -21,14 +21,14 @@ export const AuthHandle = {
             return consequencer.error(ResultCode.ACCESS_DENIED.description, ResultCode.ACCESS_DENIED.value);
         }
         if (token !== caching.token) {
-            console.log('内存token凭证与请求凭证, 拒绝这次获取');
+            console.log(`内存token${caching.token}凭证与请求token${token}凭证匹配失败, 拒绝这次获取`);
             return consequencer.error(ResultCode.ACCESS_EXPIRED.description, ResultCode.ACCESS_EXPIRED.value);
         }
         return consequencer.success();
     },
 
     set(token: string, expired: number): object {
-        console.log(`设置凭证${token}过期时间${dateToYYYYmmDDhhMMss(new Date(+expired))}`);
+        console.log(`设置凭证${token}过期时间${dateToYYYYmmDDhhMMss(new Date(+expired))}\n`);
         caching.token = token
         caching.expired = expired
 

@@ -24,10 +24,12 @@ export class UserService {
 
         const result = await this.userRepository.update(user, { token: newToken, expired: expiredTime });
 
-        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(newToken);
-
-        AuthHandle.set(newToken, expiredTime);
-        return consequencer.error('refresh token failure', 233, result);
+        if (result && result.raw && result.raw.warningCount === 0) {
+            AuthHandle.set(newToken, expiredTime);
+            return consequencer.success(newToken);
+        } else {
+            return consequencer.error('refresh token failure', 233, result);
+        }
     }
 
     async getToken({ name, password }): Promise<object> {
