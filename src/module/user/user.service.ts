@@ -46,7 +46,7 @@ export class UserService {
         /**
          * 含义: 未有凭证
          */
-        if (!user) return consequencer.error(ResultCode.ACCESS_VERIFY_FAILED.description, ResultCode.ACCESS_VERIFY_FAILED.value);
+        if (!user) return consequencer.error(ResultCode.ACCESS_USER_FAILED.description, ResultCode.ACCESS_USER_FAILED.value);
 
         /**
          * 含义: 有凭证, 并且有效期内
@@ -63,7 +63,7 @@ export class UserService {
         const refresh = await this.refresh(user);
 
         if (refresh.result !== 1) {
-            return consequencer.error(`${ResultCode.ACCESS_VERIFY_FAILED.description}, ${refresh.message}`, ResultCode.ACCESS_VERIFY_FAILED.value);
+            return consequencer.error(`${ResultCode.ACCESS_HANDLE_FAILED.description}, ${refresh.message}`, ResultCode.ACCESS_HANDLE_FAILED.value);
         }
 
         return refresh
