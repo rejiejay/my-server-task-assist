@@ -26,10 +26,15 @@ export class AuthGuard implements CanActivate {
         if (path === '/user/login' || path === '/user/verify') return true
 
         const token = headers['task-assist-token']
-        if (!token) return response.status(HttpStatus.OK).json(consequencer.error(ResultCode.ACCESS_DENIED.description, ResultCode.ACCESS_DENIED.value));
-
+        if (!token) {
+            console.log('未授权（请求不存在token凭证）, 拒绝本次访问;')
+            return response.status(HttpStatus.OK).json(consequencer.error(ResultCode.ACCESS_DENIED.description, ResultCode.ACCESS_DENIED.value));
+        }
         const auth = AuthHandle.get(token)
-        if (auth.result !== 1) response.status(HttpStatus.OK).json(auth);
+        if (auth.result !== 1) {
+            console.log('请求token凭证发生错误, 拒绝本次访问;')
+            return response.status(HttpStatus.OK).json(auth);
+        }
 
         return true
     }
