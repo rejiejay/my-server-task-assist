@@ -12,17 +12,20 @@
 - post:/task/delete
 [删除任务](http://localhost:1932/task/delete)
 
-- get:/task/list/executable
-[获取所有可执行任务](http://localhost:1932/task/list/executable)
+- get:/task/get/list/executable
+[获取所有可执行任务](http://localhost:1932/task/get/list/executable)
 
-- get:/task/list/putoff
-[获取所有延迟任务](http://localhost:1932/task/list/putoff)
+- get:/task/get/list/putoff
+[获取所有延迟任务](http://localhost:1932/task/get/list/putoff)
 
-- get:/task/list/complete
-[获取所有完成任务](http://localhost:1932/task/list/complete)
+- get:/task/get/list/complete
+[获取所有完成任务](http://localhost:1932/task/get/list/complete)
 
-- get:/task/statistics
-[统计所有完成任务](http://localhost:1932/task/statistics)
+- get:/task/get/list/complete
+[获取所有完成任务](http://localhost:1932/task/get/statistics/list/complete)
+
+- get:/task/statistics/list/complete
+[统计所有完成任务](http://localhost:1932/task/statistics/list/complete)
 
 - get:/task/conclusion/list
 [获取结论时间](http://localhost:1932/task/conclusion/list)

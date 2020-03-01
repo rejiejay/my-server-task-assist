@@ -38,7 +38,7 @@ export class TaskService {
      */
     async getUnDoneByRandomTarget(targetId: number): Promise<Consequencer> {
         const nowTimestamp = new Date().getTime()
-        const result = await this.repository.query(`select * from task_assis_task where completeTimestamp IS NULL AND targetId="${targetId}" AND (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) order by rand() limit 1;`);
+        const result = await this.repository.query(`select * from task_assis_task where content IS NOT NULL AND completeTimestamp IS NULL AND targetId="${targetId}" AND (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) order by rand() limit 1;`);
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
         if (result.length === 0) return consequencer.error('你已完成所有任务');
         return consequencer.success(result[0]);
@@ -49,7 +49,7 @@ export class TaskService {
      */
     async getUnDoneByRandom(): Promise<Consequencer> {
         const nowTimestamp = new Date().getTime()
-        const result = await this.repository.query(`select * from task_assis_task where completeTimestamp IS NULL AND (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) order by rand() limit 1;`);
+        const result = await this.repository.query(`select * from task_assis_task where content IS NOT NULL AND completeTimestamp IS NULL AND (putoffTimestamp IS NULL OR putoffTimestamp<${nowTimestamp}) order by rand() limit 1;`);
         if (!result || result instanceof Array === false) return consequencer.error('sql incorrect query');
         if (result.length === 0) return consequencer.error('你已完成所有任务');
         return consequencer.success(result[0]);
@@ -155,14 +155,17 @@ export class TaskService {
 
         if (!list || list instanceof Array === false) return consequencer.error('sql incorrect query');
 
+        return consequencer.success(list);
+    }
+    async statisticsCompleteTasks(targetId: string): Promise<Consequencer> {
+        /** 注意: 任务内容为空，就一定是结论；此处的需求不统计结论； */
+        const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
+
         const countRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp IS NOT NULL;`);
         if (!countRepository || countRepository instanceof Array === false || countRepository.length < 1) return consequencer.error('sql incorrect query');
         const count = countRepository[0]['count(*)']
 
-        return consequencer.success({
-            list,
-            count: count ? count : 0
-        });
+        return consequencer.success(count ? count : 0);
     }
 
     async statisticsTasks(targetId: string): Promise<Consequencer> {

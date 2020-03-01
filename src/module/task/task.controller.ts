@@ -40,7 +40,9 @@ export class TaskController {
     async updateValue(@Body() body: any): Promise<object> {
         const { id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion } = body
 
-        if (!id || !title || !content) return consequencer.error('参数有误');
+        if (!id || !title) return consequencer.error('参数有误');
+
+        if (!content) return consequencer.error('内容为必填项, 如果是结论则无法继续此操作!');
 
         return this.taskService.update({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion });
     }
@@ -82,6 +84,13 @@ export class TaskController {
         const { targetId, pageNo } = query
 
         return await this.taskService.getCompleteTasks(targetId, +pageNo);
+    }
+
+    @Get('statistics/list/complete')
+    async statisticsCompleteTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId } = query
+
+        return await this.taskService.statisticsCompleteTasks(targetId);
     }
 
     @Get('statistics')

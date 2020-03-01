@@ -21,7 +21,7 @@ export const AuthHandle = {
             return consequencer.error(ResultCode.ACCESS_EXPIRED.description, ResultCode.ACCESS_EXPIRED.value);
         }
         if (token !== caching.token) {
-            console.log(`内存token${caching.token}凭证与请求凭证(token: ${token})匹配失败, 拒绝这次获取;`);
+            console.log(`内存凭证(token: ${caching.token})凭证与请求凭证(token: ${token})匹配失败, 拒绝这次获取;`);
             return consequencer.error(ResultCode.ACCESS_VERIFY_FAILED.description, ResultCode.ACCESS_VERIFY_FAILED.value);
         }
         return consequencer.success();
