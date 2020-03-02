@@ -161,7 +161,7 @@ export class TaskService {
         /** 注意: 任务内容为空，就一定是结论；此处的需求不统计结论； */
         const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
 
-        const countRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}completeTimestamp IS NOT NULL;`);
+        const countRepository = await this.repository.query(`select count(*) from task_assis_task where ${targetSQL}content IS NOT NULL AND completeTimestamp IS NOT NULL;`);
         if (!countRepository || countRepository instanceof Array === false || countRepository.length < 1) return consequencer.error('sql incorrect query');
         const count = countRepository[0]['count(*)']
 
