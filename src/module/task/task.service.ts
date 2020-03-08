@@ -224,10 +224,10 @@ export class TaskService {
         return consequencer.success(count || 0);
     }
 
-    async listConclusionTasks(targetId: string, pageNo: number): Promise<Consequencer> {
+    async listConclusionTasks(targetId: string, pageNo: number, pageSize: number): Promise<Consequencer> {
         const targetSQL = targetId ? `targetId="${targetId}" AND ` : '';
         (pageNo && pageNo > 0) ? (pageNo -= 1) : (pageNo = 0);
-        const list = await this.repository.query(`select * from task_assis_task where ${targetSQL}conclusion IS NOT NULL order by sqlTimestamp desc limit ${(pageNo * 10)}, 10;`);
+        const list = await this.repository.query(`select * from task_assis_task where ${targetSQL}conclusion IS NOT NULL order by sqlTimestamp desc limit ${(pageNo * 10)}, ${pageSize ? pageSize : 10};`);
 
         if (!list || list instanceof Array === false) return consequencer.error('sql incorrect query');
 

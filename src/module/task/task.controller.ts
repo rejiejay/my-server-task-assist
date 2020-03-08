@@ -109,9 +109,9 @@ export class TaskController {
 
     @Get('conclusion/list')
     async listConclusionTasks(@Query() query: any): Promise<Consequencer> {
-        const { targetId, pageNo } = query
+        const { targetId, pageNo, pageSize } = query
 
-        return await this.taskService.listConclusionTasks(targetId, +pageNo);
+        return await this.taskService.listConclusionTasks(targetId, +pageNo, +pageSize);
     }
 
     @Get('conclusion/random')
