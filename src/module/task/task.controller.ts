@@ -173,4 +173,13 @@ export class TaskController {
     async getImageCredential(@Query() query: any): Promise<Consequencer> {
         return await this.taskService.getImageCredential();
     }
+
+    @Get('conclusion/search')
+    async searchConclusionTasks(@Query() query: any): Promise<Consequencer> {
+        const { targetId, search } = query
+
+        if (!targetId || !search) return consequencer.error('参数有误');
+
+        return await this.taskService.searchConclusionTasks(targetId, search);
+    }
 }

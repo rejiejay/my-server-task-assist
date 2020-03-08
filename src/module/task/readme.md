@@ -47,3 +47,6 @@
 
 - get:/task/image/credential
 [获取临时密钥](http://localhost:1932/task/image/credential)
+
+- get:/task/conclusion/search
+[搜索结论]](http://localhost:1932/task/conclusion/search)
