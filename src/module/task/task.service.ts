@@ -395,7 +395,7 @@ export class TaskService {
 
     /** 定义: 预期一共返回15条数据(10标题/5内容) */
     async searchConclusionTasks(targetId: string, search: string): Promise<Consequencer> {
-        const titleSearch = await this.repository.query(`select * from task_assis_task where targetId='${targetId}' AND conclusion IS NOT NULL AND title LIKE '%${search}%' order by sqlTimestamp desc limit 15;`);
+        const titleSearch = await this.repository.query(`select * from task_assis_task where targetId='${targetId}' AND conclusion IS NOT NULL AND title LIKE '%${search}%' order by sqlTimestamp desc limit 10;`);
         if (!titleSearch || titleSearch instanceof Array === false) return consequencer.error('sql incorrect query');
         const conclusionSearch = await this.repository.query(`select * from task_assis_task where targetId='${targetId}' AND conclusion IS NOT NULL AND conclusion LIKE '%${search}%' order by sqlTimestamp desc limit 15;`);
         if (!conclusionSearch || conclusionSearch instanceof Array === false) return consequencer.error('sql incorrect query');
