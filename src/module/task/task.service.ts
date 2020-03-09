@@ -81,7 +81,7 @@ export class TaskService {
         if (task.result !== 1) return task;
 
         const sqlTimestamp = new Date().getTime()
-        const result = await this.repository.update(task.data, { title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, sqlTimestamp });
+        const result = await this.repository.update(task.data, { title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion: conclusion ? conclusion : null, sqlTimestamp });
 
         if (result && result.raw && result.raw.warningCount === 0) return consequencer.success({ id, title, content, measure, span, aspects, worth, estimate, putoffTimestamp, conclusion, sqlTimestamp });
 
