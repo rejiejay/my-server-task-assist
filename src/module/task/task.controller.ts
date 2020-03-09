@@ -169,6 +169,15 @@ export class TaskController {
         return this.taskService.editConclusion({ id, title, conclusion, image });
     }
 
+    @Post('conclusion/delete')
+    async deleteConclusionValue(@Body() body: any): Promise<object> {
+        const { id } = body
+
+        if (!id) return consequencer.error('参数有误');
+
+        return this.taskService.deleteConclusion(id);
+    }
+
     @Get('image/credential')
     async getImageCredential(@Query() query: any): Promise<Consequencer> {
         return await this.taskService.getImageCredential();

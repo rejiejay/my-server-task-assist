@@ -335,6 +335,36 @@ export class TaskService {
 
     }
 
+    async deleteConclusion(id): Promise<Consequencer> {
+        const task = await this.getById(id);
+
+        if (task.result !== 1) return task;
+        const oldTask = task.data
+
+        /** 含义: 任务仅清空图片与结论, 非任务则删除整条任务 */
+        if (!!!oldTask.content) return await this.delete(id);
+
+        if (oldTask.image) {
+            /** 删除图片? */
+            const del = await this.delImage({
+                path: oldTask.image
+            })
+
+            if (del.result !== 1) return del;
+        }
+
+        const sqlTimestamp = new Date().getTime()
+        const result = await this.repository.update(oldTask, {
+            conclusion: null,
+            image: null,
+            sqlTimestamp
+        });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success();
+
+        return consequencer.error(`delete conclusion[${oldTask.title}] failure`);
+    }
+
     async delImage({ path }): Promise<Consequencer> {
         const delInfor = await getUploadInfor(path).then((infor) => {
             return consequencer.success(infor);

@@ -45,6 +45,9 @@
 - post:/task/conclusion/edit
 [编辑结论](http://localhost:1932/task/conclusion/edit)
 
+- post:/task/conclusion/delete
+[删除结论](http://localhost:1932/task/conclusion/delete)
+
 - get:/task/image/credential
 [获取临时密钥](http://localhost:1932/task/image/credential)
 
