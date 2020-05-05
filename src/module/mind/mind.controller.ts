@@ -26,4 +26,13 @@ export class MindController {
 
         return await this.mindService.getById(id)
     }
+
+    @Post('edit/id')
+    async editById(@Body() body: any): Promise<Consequencer> {
+        const { id, title, content, timeSpan, view, nature } = body
+
+        if (!id || !title) return consequencer.error('参数有误');
+
+        return await this.mindService.editById({ id, title, content, timeSpan, view, nature })
+    }
 }

@@ -45,4 +45,15 @@ export class MindService {
 
         return consequencer.success(mind)
     }
+
+    async editById({ id, title, content, timeSpan, view, nature }): Promise<Consequencer> {
+        const currentMind = await this.repository.findOne({ id });
+        if (!currentMind) return consequencer.error('This Mind does not exist');
+
+        const result = await this.repository.update(currentMind, { title, content, timeSpan, view, nature });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success({ id, title, content, timeSpan, view, nature });
+
+        return consequencer.error(`update mind[${id}] failure`);
+    }
 }
