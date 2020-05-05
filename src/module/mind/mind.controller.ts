@@ -17,4 +17,13 @@ export class MindController {
     async getAll(@Query() query: any): Promise<Consequencer> {
         return await this.mindService.getAll()
     }
+
+    @Get('get/id')
+    async getById(@Query() query: any): Promise<Consequencer> {
+        const { id } = query
+
+        if (!id) return consequencer.error('参数有误');
+
+        return await this.mindService.getById(id)
+    }
 }
