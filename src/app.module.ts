@@ -8,6 +8,7 @@ import { MapModule } from './module/map/map.module';
 import { TaskModule } from './module/task/task.module';
 import { WhyModule } from './module/why/why.module';
 import { PlanModule } from './module/plan/plan.module';
+import { MindModule } from './module/mind/mind.module';
 
 import { mysqlConfig } from './config/mysql';
 
@@ -18,6 +19,7 @@ import { mysqlConfig } from './config/mysql';
         TaskModule,
         WhyModule,
         PlanModule,
+        MindModule,
         TypeOrmModule.forRoot(mysqlConfig)
     ],
     controllers: [AppController],

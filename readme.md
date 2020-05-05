@@ -17,6 +17,10 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 cnpm i -g @nestjs/cli
 ```
 
+```
+cnpm install -d
+```
+
 # 命令
 - 启动
 ```
@@ -30,7 +34,11 @@ nest g controller name
 nest g module name
 
 # 发布流程
-端口号: src\main.ts:20 ——> 3814
-数据库: src\config\mysql.ts ——> 配置信息在有道云上
+端口号: src\main.ts:20 ——> 3814  
+数据库: src\config\mysql.ts ——> 配置信息在有道云上  
 
 之后操作: 参考有道云
+
+# 额外源码 BUG
+Ctrl + P -> node_modules\._express@4.17.1@express\lib\response.js:771  
+删除 this.setHeader(field, value);

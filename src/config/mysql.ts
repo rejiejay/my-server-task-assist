@@ -5,20 +5,22 @@ import { TaskAssisMap } from 'src/module/map/entity/map.entity';
 import { TaskAssisTask } from 'src/module/task/entity/task.entity';
 import { TaskAssisWhy } from 'src/module/why/entity/why.entity';
 import { TaskAssisPlan } from 'src/module/plan/entity/plan.entity';
+import { RequireAssisMind } from 'src/module/mind/entity/mind.entity';
 
 export const mysqlConfig: TypeOrmModuleOptions = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
-    username: 'root',
-    password: 'DFqew=1938167',
+    username: 'Rejiejay',
+    password: 'QQ1938167',
     database: 'task_assist',
     entities: [
         TaskAssisUser,
         TaskAssisMap,
         TaskAssisTask,
         TaskAssisWhy,
-        TaskAssisPlan
+        TaskAssisPlan,
+        RequireAssisMind
     ],
     synchronize: true,
 }
