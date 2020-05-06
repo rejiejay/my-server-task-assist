@@ -40,4 +40,13 @@ export class MindController {
     async getRandom(@Query() query: any): Promise<Consequencer> {
         return await this.mindService.getRandom()
     }
+
+    @Post('edit/parent/id')
+    async editParentById(@Body() body: any): Promise<Consequencer> {
+        const { newParentId, oldId } = body
+
+        if (!newParentId || !oldId) return consequencer.error('参数有误');
+
+        return await this.mindService.editParentById({ newParentId, oldId })
+    }
 }

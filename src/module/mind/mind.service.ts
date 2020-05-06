@@ -65,4 +65,18 @@ export class MindService {
         return this.getById(currentId)
     }
 
+    async editParentById({ newParentId, oldId }): Promise<Consequencer> {
+        const currentMind = await this.repository.findOne({ id: oldId });
+        if (!currentMind) return consequencer.error('This Mind does not exist');
+
+        const parentMind = await this.repository.findOne({ id: newParentId });
+        if (!parentMind) return consequencer.error('Parent Mind does not exist');
+
+        const result = await this.repository.update(currentMind, { parentid: parentMind.id });
+
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(currentMind);
+
+        return consequencer.error(`update mind[${oldId}] failure`);
+    }
+
 }
