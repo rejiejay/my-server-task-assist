@@ -33,7 +33,7 @@ export class MindService {
         if (!currentMind) return consequencer.error('This Mind does not exist');
         mind.current = currentMind
 
-        if (currentMind.id !== 1) {
+        if (+currentMind.id !== 1) {
             const parentMind = await this.repository.findOne({ id: currentMind.parentid });
             if (!parentMind) return consequencer.error('This Mind find parent SQL have error');
             mind.parent = parentMind
