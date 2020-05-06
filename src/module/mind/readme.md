@@ -8,3 +8,6 @@
 
 - post:/mind/edit/id
 [根据id更新思维导图](http://localhost:1932/mind/edit/id)
+
+- get:/mind/get/random
+[随机获取思维导图](http://localhost:1932/mind/get/random)

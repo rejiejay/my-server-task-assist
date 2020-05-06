@@ -56,4 +56,13 @@ export class MindService {
 
         return consequencer.error(`update mind[${id}] failure`);
     }
+
+    async getRandom(): Promise<Consequencer> {
+        const list = await this.repository.query('select * from require_assis_mind order by rand() limit 1;');
+        if (!list || list instanceof Array === false) return consequencer.error('This Mind find random sql incorrect query');
+
+        const currentId = list[0].id
+        return this.getById(currentId)
+    }
+
 }

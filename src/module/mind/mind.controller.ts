@@ -35,4 +35,9 @@ export class MindController {
 
         return await this.mindService.editById({ id, title, content, timeSpan, view, nature })
     }
+
+    @Get('get/random')
+    async getRandom(@Query() query: any): Promise<Consequencer> {
+        return await this.mindService.getRandom()
+    }
 }
