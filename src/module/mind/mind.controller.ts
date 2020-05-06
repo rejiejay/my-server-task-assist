@@ -58,4 +58,13 @@ export class MindController {
 
         return await this.mindService.addByParentId({ parentid, title, content, timeSpan, view, nature })
     }
+
+    @Post('del/id')
+    async delByMindId(@Body() body: any): Promise<Consequencer> {
+        const { id } = body
+
+        if (!id && +id !== 1) return consequencer.error('参数有误');
+
+        return await this.mindService.delByMindId({ id })
+    }
 }

@@ -17,3 +17,6 @@
 
 - post:/mind/add/parentid
 [根据id新增思维导图](http://localhost:1932/mind/add/parentid)
+
+- post:/mind/del/id
+[根据id删除思维导图](http://localhost:1932/mind/del/id)

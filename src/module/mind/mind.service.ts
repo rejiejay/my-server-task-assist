@@ -97,4 +97,17 @@ export class MindService {
         const result = await this.repository.save(mind);
         return result ? consequencer.success(mind) : consequencer.error('add task to repository failure');
     }
+
+    async delByMindId({ id }): Promise<Consequencer> {
+        const currentMind = await this.repository.findOne({ id });
+        if (!currentMind) return consequencer.error('This Mind does not exist');
+
+        const list = await this.repository.query(`select * from require_assis_mind where parentid="${currentMind.id}"`);
+        if (list instanceof Array && list.length > 0) return consequencer.error('Cannot delete Mind elements with child nodes');
+
+        const result = await this.repository.delete(currentMind);
+        if (result && result.raw && result.raw.warningCount === 0) return consequencer.success(currentMind);
+
+        return consequencer.error(`del Mind[${id}] failure`);
+    }
 }
