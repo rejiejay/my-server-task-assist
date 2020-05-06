@@ -31,7 +31,7 @@ export class MindController {
     async editById(@Body() body: any): Promise<Consequencer> {
         const { id, title, content, timeSpan, view, nature } = body
 
-        if (!id || !title) return consequencer.error('参数有误');
+        if (!id || !title || !content) return consequencer.error('参数有误');
 
         return await this.mindService.editById({ id, title, content, timeSpan, view, nature })
     }
@@ -48,5 +48,14 @@ export class MindController {
         if (!newParentId || !oldId) return consequencer.error('参数有误');
 
         return await this.mindService.editParentById({ newParentId, oldId })
+    }
+
+    @Post('add/parentid')
+    async addByParentId(@Body() body: any): Promise<Consequencer> {
+        const { parentid, title, content, timeSpan, view, nature } = body
+
+        if (!parentid || !title || !content) return consequencer.error('参数有误');
+
+        return await this.mindService.addByParentId({ parentid, title, content, timeSpan, view, nature })
     }
 }

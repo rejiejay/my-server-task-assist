@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { consequencer, Consequencer } from 'src/utils/consequencer';
+import { createRandomStr } from 'src/utils/string-handle';
 
 import { RequireAssisMind } from './entity/mind.entity';
 
@@ -79,4 +80,21 @@ export class MindService {
         return consequencer.error(`update mind[${oldId}] failure`);
     }
 
+    async addByParentId({ parentid, title, content, timeSpan, view, nature }): Promise<Consequencer> {
+        const parentMind = await this.repository.findOne({ id: parentid });
+        if (!parentMind) return consequencer.error(`This parent ${parentid} Mind does not exist`);
+
+        let mind = new RequireAssisMind()
+        mind.id = new Date().getTime()
+        mind.alias = createRandomStr({ length: 4, noUpperCase: true })
+        mind.parentid = parentid
+        mind.title = title
+        mind.content = content
+        mind.timeSpan = timeSpan
+        mind.view = view
+        mind.nature = nature
+
+        const result = await this.repository.save(mind);
+        return result ? consequencer.success(mind) : consequencer.error('add task to repository failure');
+    }
 }

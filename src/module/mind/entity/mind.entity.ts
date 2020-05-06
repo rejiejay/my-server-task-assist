@@ -2,15 +2,15 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class RequireAssisMind {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
     /**
      * 含义: id 别名 
      * 作用: 辅助关联
      */
-    @Column({ type: 'bigint' })
-    alias: number;
+    @Column({ type: 'tinytext' })
+    alias: string;
 
     @Column({ type: 'bigint' })
     parentid: number;

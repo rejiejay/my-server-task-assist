@@ -14,3 +14,6 @@
 
 - post:/mind/edit/parent/id
 [根据id更新思维导图父节点](http://localhost:1932/mind/edit/parent/id)
+
+- post:/mind/add/parentid
+[根据id新增思维导图](http://localhost:1932/mind/add/parentid)
