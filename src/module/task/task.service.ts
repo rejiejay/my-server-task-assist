@@ -66,7 +66,7 @@ export class TaskService {
         task.worth = worth
         task.estimate = estimate
         task.putoffTimestamp = putoffTimestamp
-        task.conclusion = conclusion
+        task.conclusion = conclusion ? conclusion : null
         task.image = image
         task.completeTimestamp = completeTimestamp // 注意: 结论会影响到
         task.sqlTimestamp = new Date().getTime()
